@@ -115,3 +115,38 @@ df.at[0,'-3'] = list(df['Octant']).count(-3)
 #counting the 1 and -1 putting list of Octant ID
 df.at[0,'4'] = list(df['Octant']).count(4)
 df.at[0,'-4'] = list(df['Octant']).count(-4)
+
+
+
+import math
+#defining boundry for ranges
+boundary=[]
+
+mod = 5000
+df.at[1,'Octant ID'] = 'Mod {}'.format(mod)
+
+#using loop to devide all value of data in 6 ranges of 5000 difference
+for i in range(math.ceil(len(df.index)/mod)):
+    boundary.append(i*mod)
+boundary.append(len(df.index)) #appending the boundry and for last value taking the index length of df 
+print(boundary)
+
+#countig the octants value in each range division by using loop
+for i in range(len(boundary) - 1):
+    df.at[2 + i, 'Octant ID'] = str(boundary[i]) + " to " + str(boundary[i + 1] - 1)
+    
+    df.at[2 + i, '1'] = df['Octant'].iloc[boundary[i]:(boundary[i+1])].value_counts()[1]
+    df.at[2 + i, '-1'] = df['Octant'].iloc[boundary[i]:(boundary[i+1])].value_counts()[-1]
+    
+    df.at[2 + i, '2'] = df['Octant'].iloc[boundary[i]:(boundary[i+1])].value_counts()[2]
+    df.at[2 + i, '-2'] = df['Octant'].iloc[boundary[i]:(boundary[i+1])].value_counts()[-2]
+    
+    df.at[2 + i, '3'] = df['Octant'].iloc[boundary[i]:(boundary[i+1])].value_counts()[3]
+    df.at[2 + i, '-3'] = df['Octant'].iloc[boundary[i]:(boundary[i+1])].value_counts()[-3]
+    
+    df.at[2 + i, '4'] = df['Octant'].iloc[boundary[i]:(boundary[i+1])].value_counts()[4]
+    df.at[2 + i, '-4'] = df['Octant'].iloc[boundary[i]:(boundary[i+1])].value_counts()[-4]
+    
+df.to_csv('octant_output.csv')
+#printing final values to above file
+
