@@ -1,14 +1,5 @@
-def factorial(x):
-    if x < 0:
-        return 0
-    elif x == 0 or x == 1:
-        return 1
-    else:
-        facto = 1
-        while(x > 1):
-            facto *= x
-            x -= 1
-        return facto
- 
-num = int(input("Enter the number whose factorial is to be found "))
-print("Factorial of",num,"is",factorial(num))
+#imported pandas library for accessing the input file 
+#then used shape to fetch the dimensions of pandas type object
+import pandas as pd
+df = pd.read_csv(r"C:\Users\hp\OneDrive\Documents\python\2001ME80_2022\tut01\octant_input.csv")
+x = df.shape[0]
