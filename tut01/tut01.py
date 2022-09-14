@@ -1,9 +1,12 @@
+                        #PANDAS IMPORTING AND READING INPUT FILE
+
 #imported pandas library for accessing the input file 
 #then used shape to fetch the dimensions of pandas type object
 import pandas as pd
 df = pd.read_csv(r"C:\Users\hp\OneDrive\Documents\python\2001ME80_2022\tut01\octant_input.csv")
 x = df.shape[0]
 
+                              #AVERAGE
 
 #here used the mean() function for finding the average of U
 U_avg = df['U'].mean()
@@ -25,6 +28,8 @@ df['W Avg']=V_avg
 df['W Avg']=df['W Avg'].head(1)
 
 
+                                    #DATA PREPROCESSING AND DIFFRENCE
+
 
 #here defined the X,Y,Z and X=U' , Y=V' , Z=W'
 X = df['U'] - U_avg
@@ -37,6 +42,8 @@ df["V'=V - V_avg"] = Y
 df["W'=W - W_avg"] = Z
 
 
+                                                #FINDING OCTANT
+
 #here made the column for storing the value of octant
 df.insert(10, column="Octant", value="")
 # Octant=[]
@@ -48,8 +55,6 @@ for i in range(0,x):
     O= df["W'=W - W_avg"][i]
     
 #finding octant value by using conditional statements if and elif
-
-
 
 #1st quadrant(1) and positive z(+)
     if M>0 and N>0 and O>0:
@@ -93,6 +98,8 @@ for i in range(0,x):
         
 
 
+                                                        #COUNTING OCTANT
+
 
 #user input
 df.at[1,''] = 'User Input'
@@ -118,6 +125,9 @@ df.at[0,'-4'] = list(df['Octant']).count(-4)
 
 
 
+                                            #COUNTING OCTANT VALUES FOR RANGES AND PROCESSING FOR FINAL SOLUTION
+
+
 import math
 #defining boundry for ranges
 boundary=[]
@@ -129,7 +139,7 @@ df.at[1,'Octant ID'] = 'Mod {}'.format(mod)
 for i in range(math.ceil(len(df.index)/mod)):
     boundary.append(i*mod)
 boundary.append(len(df.index)) #appending the boundry and for last value taking the index length of df 
-print(boundary)
+
 
 #countig the octants value in each range division by using loop
 for i in range(len(boundary) - 1):
