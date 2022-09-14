@@ -91,3 +91,27 @@ for i in range(0,x):
         print(-4)
         df["Octant"][i] =-4
         
+
+
+
+#user input
+df.at[1,''] = 'User Input'
+#creating row
+df.at[0,'Octant ID'] = 'Overall Count'
+
+
+#counting the 1 and -1 putting list of Octant ID
+df.at[0,'1'] = list(df['Octant']).count(1)
+df.at[0,'-1'] = list(df['Octant']).count(-1)
+
+#counting the 1 and -1 putting list of Octant ID
+df.at[0,'2'] = list(df['Octant']).count(2)
+df.at[0,'-2'] = list(df['Octant']).count(-2)
+
+#counting the 1 and -1 putting list of Octant ID
+df.at[0,'3'] = list(df['Octant']).count(3)
+df.at[0,'-3'] = list(df['Octant']).count(-3)
+
+#counting the 1 and -1 putting list of Octant ID
+df.at[0,'4'] = list(df['Octant']).count(4)
+df.at[0,'-4'] = list(df['Octant']).count(-4)
