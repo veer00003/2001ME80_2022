@@ -1,8 +1,12 @@
+                    #PANDAS IMPORTING AND READING INPUT FILE
+                    
 #imported pandas library for accessing the input file 
 #then used shape to fetch the dimensions of pandas type object
 import pandas as pd
 df = pd.read_excel(r"C:\Users\hp\OneDrive\Documents\python\2001ME80_2022\tut02\input_octant_transition_identify.xlsx")
 x = df.shape[0]
+
+                              #AVERAGE
 
 #here used the mean() function for finding the average of U
 U_avg = df['U'].mean()
@@ -23,6 +27,10 @@ df['V Avg']=df['V Avg'].head(1)
 df['W Avg']=V_avg
 df['W Avg']=df['W Avg'].head(1)
 
+
+                                    #DATA PREPROCESSING AND DIFFRENCE
+
+
 #here defined the X,Y,Z and X=U' , Y=V' , Z=W'
 X = df['U'] - U_avg
 Y = df['V'] - V_avg
@@ -33,6 +41,8 @@ df["U'=U - U_avg"] = X
 df["V'=V - V_avg"] = Y
 df["W'=W - W_avg"] = Z
 
+
+                                                #FINDING OCTANT
 
 #here made the column for storing the value of octant
 df.insert(10, column="Octant", value="")
@@ -45,8 +55,6 @@ for i in range(0,x):
     O= df["W'=W - W_avg"][i]
     
 #finding octant value by using conditional statements if and elif
-
-
 
 #1st quadrant(1) and positive z(+)
     if M>0 and N>0 and O>0:
@@ -90,6 +98,9 @@ for i in range(0,x):
         
 
 
+                                                        #COUNTING OCTANT
+
+
 #user input
 df.at[1,''] = 'User Input'
 #creating row
@@ -113,6 +124,10 @@ df.at[0,'4'] = list(df['Octant']).count(4)
 df.at[0,'-4'] = list(df['Octant']).count(-4)
 
 
+
+                                            #COUNTING OCTANT VALUES FOR RANGES AND PROCESSING FOR FINAL SOLUTION
+
+
 import math
 #defining boundry for ranges
 boundary=[]
@@ -124,7 +139,6 @@ df.at[1,'Octant ID'] = 'Mod {}'.format(mod)
 for i in range(math.ceil(len(df.index)/mod)):
     boundary.append(i*mod)
 boundary.append(len(df.index)) #appending the boundry and for last value taking the index length of df 
-print(boundary)
 
 
 #countig the octants value in each range division by using loop
@@ -143,25 +157,6 @@ for i in range(len(boundary) - 1):
     df.at[2 + i, '4'] = df['Octant'].iloc[boundary[i]:(boundary[i+1])].value_counts()[4]
     df.at[2 + i, '-4'] = df['Octant'].iloc[boundary[i]:(boundary[i+1])].value_counts()[-4]
     
-    #creating row
-df.at[8,'Octant ID'] = 'Verified'
-
-
-#counting the 1 and -1 putting list of Octant ID
-df.at[8,'1'] = list(df['Octant']).count(1)
-df.at[8,'-1'] = list(df['Octant']).count(-1)
-
-#counting the 1 and -1 putting list of Octant ID
-df.at[8,'2'] = list(df['Octant']).count(2)
-df.at[8,'-2'] = list(df['Octant']).count(-2)
-
-#counting the 1 and -1 putting list of Octant ID
-df.at[8,'3'] = list(df['Octant']).count(3)
-df.at[8,'-3'] = list(df['Octant']).count(-3)
-
-#counting the 1 and -1 putting list of Octant ID
-df.at[8,'4'] = list(df['Octant']).count(4)
-df.at[8,'-4'] = list(df['Octant']).count(-4)
-
-df.to_excel('output octant transition identify.xlsx')
+df.to_csv('octant_output.csv')
 #printing final values to above file
+
