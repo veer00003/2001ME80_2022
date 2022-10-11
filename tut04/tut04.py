@@ -89,3 +89,29 @@ for i in range(0,x):
     elif M>0 and N<0 and O<0:
         print(-4)
         df["Octant"][i] =-4
+
+
+Octant = [1,-1,2,-2,3,-3,4,-4]
+for i, a in enumerate(Octant):
+    df.at[i, 'octant'] = a
+    c, maxC = 0, 0
+    # Making subsequence of longest length
+    for z in df['Octant']:
+        if z == a:
+            c += 1
+        else:
+            maxC = max(maxC, c)
+            c = 0
+    df.at[i, 'Longest Subsequence'] = maxC
+    c, count = 0, 0
+   
+     # Making subsequence occurences  of longest length 
+    for z in df['Octant']:
+        if z == a:
+            c += 1
+        else:
+            if c==maxC:
+                count+=1
+              
+            c = 0
+    df.at[i, 'Count'] = count
