@@ -39,3 +39,56 @@ df["V'=V - V_avg"] = Y
 df["W'=W - W_avg"] = Z
 
 df.head()
+
+
+#here made the column for storing the value of octant
+df.insert(10, column="Octant", value="")
+# Octant=[]
+#using loop for taking the all values of the row and column
+for i in range(0,x):
+#for ease defined M, N, O
+    M= df["U'=U - U_avg"][i]
+    N= df["V'=V - V_avg"][i]
+    O= df["W'=W - W_avg"][i]
+    
+#finding octant value by using conditional statements if and elif
+
+#1st quadrant(1) and positive z(+)
+    if M>0 and N>0 and O>0:
+        print(1)
+        df["Octant"][i] = 1
+        
+#1st quadrant(1) and negative z(-)
+    elif M>0 and N>0 and O<0:
+        print(-1)
+        df["Octant"][i] =-1
+        
+#2nd quadrant(2) and positive z(+)
+    elif M<0 and N>0 and O>0:
+        print(2)
+        df["Octant"][i] =2
+        
+#2nd quadrant(2) and negative z(-)
+    elif M<0 and N>0 and O<0:
+        print(-2)
+        df["Octant"][i] =-2
+        
+#3rd quadrant(3) and positive z(+)
+    elif M<0 and N<0 and O>0:
+        print(3)
+        df["Octant"][i] =3
+        
+#3rd quadrant(3) and negative z(-)
+    elif M<0 and N<0 and O<0:
+        print(-3)
+        df["Octant"][i] =-3
+        
+#4th quadrant(4) and positive z(+)
+    elif M>0 and N<0 and O>0:
+        print(4)
+        df["Octant"][i] =4
+        
+#4th quadrant(4) and negative z(-)
+    elif M>0 and N<0 and O<0:
+        print(-4)
+        df["Octant"][i] =-4
