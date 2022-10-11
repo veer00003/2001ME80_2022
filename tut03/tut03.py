@@ -3,7 +3,7 @@
 import pandas as pd
 df = pd.read_excel(r"C:\Users\hp\OneDrive\Documents\python\2001ME80_2022\tut02\input_octant_transition_identify.xlsx")
 x = df.shape[0]
-df.head()
+
 
 
 #here used the mean() function for finding the average of U
@@ -25,7 +25,6 @@ df['V Avg']=df['V Avg'].head(1)
 df['W Avg']=V_avg
 df['W Avg']=df['W Avg'].head(1)
 
-df.head()
 
 
 #here defined the X,Y,Z and X=U' , Y=V' , Z=W'
@@ -37,8 +36,6 @@ Z = df['W'] - W_avg
 df["U'=U - U_avg"] = X
 df["V'=V - V_avg"] = Y
 df["W'=W - W_avg"] = Z
-
-df.head()
 
 
 #here made the column for storing the value of octant
