@@ -147,3 +147,40 @@ for i in range(len(boundary) - 1):
 
     df.at[2 + i, '4'] = df['Octant'].iloc[boundary[i]:(boundary[i+1])].value_counts()[4]
     df.at[2 + i, '-4'] = df['Octant'].iloc[boundary[i]:(boundary[i+1])].value_counts()[-4]
+
+    #finding rank 
+
+rank1 = []
+for j in range(0,n+2):
+    Octant_name_ID_mapping = {'1':"Internal outward interaction", '-1':"External outward interaction", '2':"External Ejection",'-2':"Internal Ejection",'3':"External inward interaction", '-3':"Internal inward interaction", '4':"Internal sweep", '-4':"External sweep"}
+   
+    Octant_count = []
+    
+
+    for i in ['1','-1','2','-2','3','-3','4','-4']:
+        Octant_count.append(df.at[j,i]) 
+    Octant_count.sort(reverse=True) #sorting overall count 
+
+    for i in ['1','-1','2','-2','3','-3','4','-4']:
+        for x in range(0,8):
+            if(Octant_count[x]==df.at[j,i]):
+                df.at[j,"Rank("+i+")"] = x+1 #acessing indices after sorting for ranking 
+    
+    for k in ['1','-1','2','-2','3','-3','4','-4']:
+        if(df.loc[j,"Rank("+str(k)+")"]==1):
+   # Creating Rank1 Octant ID and Rank1 Octant name          
+            df.at[j,"Rank1 Octant ID"] = k
+            df.at[j,"Rank1 Octant Name"]=Octant_name_ID_mapping[str(k)]
+            if j == 0:
+                continue
+            else:
+                rank1.append(int(k)) #appending the rank 1 mod count for mod values
+            
+df.at[n+5,'1'] = 'Octant Id'
+df.at[n+5,'-1'] = 'Octant Name'
+df.at[n+5,'2'] = 'Count of Rank 1 Mod Values'
+for j,x in enumerate([1,-1,2,-2,3,-3,4,-4]):
+    df.at[n+6+j,'1'] = x
+    df.at[n+6+j,'-1'] = Octant_name_ID_mapping[str(x)]
+    df.at[n+6+j,'2'] = rank1.count(x)        #printing the count of octant which is ranked 1
+df = pd.concat([df.columns.to_frame().T, df], ignore_index=True)
