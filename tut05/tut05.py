@@ -1,30 +1,27 @@
+import math
+# imported pandas library for accessing the input file
+# then used shape to fetch the dimensions of pandas type object
+import pandas as pd
+df = pd.read_excel(r"C:\Users\hp\OneDrive\Documents\python\2001ME80_2022\tut05\octant_input.xlsx")
+x = df.shape[0]
 
+# AVERAGE
 
-from datetime import datetime
-start_time = datetime.now()
+# here used the mean() function for finding the average of U
+U_avg = df['U'].mean()
+# similarly here used mean function for V and W
+V_avg = df['V'].mean()
+W_avg = df['W'].mean()
 
-#Help https://youtu.be/N6PBd4XdnEw
-def octant_range_names(mod=5000):
+# made a column to store average of U
+df['U Avg'] = U_avg
+# and here given only 1st place of line to U avg otherwise average value will print in whole column
+df['U Avg'] = df['U Avg'].head(1)
 
-    
-    octant_name_id_mapping = {"1":"Internal outward interaction", "-1":"External outward interaction", "2":"External Ejection", "-2":"Internal Ejection", "3":"External inward interaction", "-3":"Internal inward interaction", "4":"Internal sweep", "-4":"External sweep"}
+# similarly here made column for average of V and W
+# also here given only 1st place of line to W and V average otherwise average value will print in whole column
+df['V Avg'] = V_avg
+df['V Avg'] = df['V Avg'].head(1)
 
-###Code
-
-from platform import python_version
-ver = python_version()
-
-if ver == "3.8.10":
-    print("Correct Version Installed")
-else:
-    print("Please install 3.8.10. Instruction are present in the GitHub Repo/Webmail. Url: https://pastebin.com/nvibxmjw")
-
-
-mod=5000 
-octant_range_names(mod)
-
-
-
-#This shall be the last lines of the code.
-end_time = datetime.now()
-print('Duration of Program Execution: {}'.format(end_time - start_time))
+df['W Avg'] = V_avg
+df['W Avg'] = df['W Avg'].head(1)
