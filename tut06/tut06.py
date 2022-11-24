@@ -1,25 +1,23 @@
+from platform import python_version
+import csv
 
+import pandas as pd
 
 from datetime import datetime
+import openpyxl
 start_time = datetime.now()
 
+
 def attendance_report():
-###Code
+    try:
+        inp_file = pd.read_csv('input_attendance.csv')
+        inp = inp_file.fillna("2001CCXX Random")
+    except:
+        print("File not found")
 
-from platform import python_version
-ver = python_version()
+    try:
+        rollno_inp = pd.read_csv('input_registered_students.csv')
+    except:
+        print('File containing name of all students is missing!')
 
-if ver == "3.8.10":
-    print("Correct Version Installed")
-else:
-    print("Please install 3.8.10. Instruction are present in the GitHub Repo/Webmail. Url: https://pastebin.com/nvibxmjw")
-
-
-attendance_report()
-
-
-
-
-#This shall be the last lines of the code.
-end_time = datetime.now()
-print('Duration of Program Execution: {}'.format(end_time - start_time))
+   
