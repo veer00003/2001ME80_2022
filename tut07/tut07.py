@@ -513,3 +513,67 @@ def octant_analysis(mod, df):
 				count += 1
 			length = 0
 	df.at[row-count-2, 'count_'] = count
+
+from platform import python_version
+import pandas as pd
+import os
+import math
+from openpyxl import load_workbook
+from openpyxl.styles import Border, Side, colors, PatternFill
+from openpyxl.styles.differential import DifferentialStyle
+from openpyxl.formatting.rule import Rule
+ver = python_version()
+
+if ver == "3.8.10":
+	print("Correct Version Installed")
+else:
+	print("Please install 3.8.10. Instruction are present in the GitHub Repo/Webmail. Url: https://pastebin.com/nvibxmjw")
+
+
+for filename in os.listdir('input'):
+    f = os.path.join('input', filename)
+    if os.path.isfile(f) and f.endswith('.xlsx'):
+        df = pd.read_excel(f)  
+
+
+        mod=5000
+
+        octant_analysis(mod)
+        df.to_excel(os.path.join('output', filename), index=None)
+
+        file = load_workbook('output.xlsx')
+        sheet = file.active
+
+        side = Side(border_style='thin', color="000000")
+        border = Border(top=side, bottom=side, left=side, right=side)
+        for cell in sheet['AG1':'AI10']:
+            for x in cell:
+                x.border = border
+        for cell in sheet['AK1':'AM' + str(sum([sheet['AI' + str(i)].value for i in range(3,11)]) + 9)]:
+            for x in cell:
+                x.border = border
+        for cell in sheet['M1':'AE' + str((len(df) // mod) + 4)]:
+            for x in cell:
+                x.border = border
+        for cell in sheet['N' + str((len(df) // mod) + 8):'P' + str((len(df) // mod) + 16)]:
+            for x in cell:
+                x.border = border
+        for i in range((len(df) // mod) + 2):
+            for cell in sheet['AO' + str(4 + 13*i) : 'AW' + str(12 + 13*i)]:
+                for x in cell:
+                    x.border = border
+
+        style =DifferentialStyle(fill=PatternFill(bgColor='FFFF00'))
+        rule = Rule(type="expression", dxf=style)
+        rule.formula = ['V2=1']
+        sheet.conditional_formatting.add("V2:AD"+str((len(df) // mod) + 4), rule)
+
+        for i in range((len(df) // mod) + 2):
+            rule2 = Rule(type='expression', dxf=style)
+            rule2.formula = ['AP' + str(5 + 13*i) + '=MAX($AP' + str(5 + 13*i) + ':$AW' + str(5 + 13*i) + ')']
+            sheet.conditional_formatting.add('AP' + str(5 + 13*i) + ':AW' + str(12 + 13*i), rule2)
+
+        file.save(os.path.join('output', filename))
+#This shall be the last lines of the code.
+end_time = datetime.now()
+print('Duration of Program Execution: {}'.format(end_time - start_time))
