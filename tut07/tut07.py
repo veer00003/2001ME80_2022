@@ -157,7 +157,7 @@ def octant_analysis(mod, df):
 		df.at[2 + i, '-4'] = df['Octant'].iloc[boundary[i]
 			:(boundary[i+1])].value_counts()[-4]
 
-		# finding rank
+  # finding rank
 
 	rank1 = []
 	for j in range(0, n+2):
