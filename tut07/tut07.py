@@ -196,3 +196,320 @@ def octant_analysis(mod, df):
 		# printing the count of octant which is ranked 1
 		df.at[n+6+j, '2'] = rank1.count(x)
 	df = pd.concat([df.columns.to_frame().T, df], ignore_index=True)
+
+
+	# TRANSITION
+
+	df.at[13, 'Octant ID'] = 'Overall Transition Count'
+
+	# These are the octant values
+	Octant = ['1', '-1', '2', '-2', '3', '-3', '4', '-4']
+	df.at[14, 1] = 'To'
+	df.at[16, ''] = 'From'
+
+	# Insert the table labels
+	for i, x in enumerate(Octant):
+		df.at[14, x] = x
+		df.at[16 + i, 'Octant ID'] = x
+
+	# Initialise table cells to zero
+	for i in range(8):
+		for j in range(8):
+			df.at[16+i, Octant[j]] = 0
+
+			x, y = 0, 0
+	for i in range(boundary[0], boundary[-1]-1):
+		from_octant = df["Octant"][i]
+		to_octant = df["Octant"][i+1]
+		x = Octant.index(str(from_octant))
+		y = Octant.index(str(to_octant))
+
+		df.at[16 + x, Octant[y]] += 1
+
+		row_number = 28
+
+	# The mod transition count tables are made for the boundaries
+	for k in range(len(boundary)-1):
+		df.at[row_number - 1,
+			  'Octant ID'] = str(boundary[k]) + '-' + str(boundary[k + 1])
+		df.at[row_number - 3, 'Octant ID'] = 'Mod Transition Count'
+		df.at[row_number - 2, '1'] = 'To'
+		df.at[row_number, ''] = 'From'
+		for i, z in enumerate(Octant):
+			df.at[row_number - 1, z] = z
+			df.at[row_number + i, 'Octant ID'] = z
+		for i in range(8):
+			for j in range(8):
+				df.at[row_number+i, Octant[j]] = 0
+		for i in range(boundary[k], boundary[k+1]-1):
+			from_octant = df["Octant"][i]
+			to_octant = df["Octant"][i+1]
+			x = Octant.index(str(from_octant))
+			y = Octant.index(str(to_octant))
+
+			df.at[row_number + x, Octant[y]] += 1
+
+		row_number += 15
+
+
+	Octant = [1, -1, 2, -2, 3, -3, 4, -4]
+	for i, a in enumerate(Octant):
+		df.at[i, 'octant'] = a
+		c, maxC = 0, 0
+		# Making subsequence of longest length
+		for z in df['Octant']:
+			if z == a:
+				c += 1
+			else:
+				maxC = max(maxC, c)
+				c = 0
+		df.at[i, 'Longest Subsequence'] = maxC
+		c, count = 0, 0
+
+		# Making subsequence occurences  of longest length
+		for z in df['Octant']:
+			if z == a:
+				c += 1
+			else:
+				if c == maxC:
+					count += 1
+
+				c = 0
+		df.at[i, 'Count'] = count
+
+
+	# making columns
+	df['octn'] = ''
+	df['longest subsequence length'] = ''
+	df['count_'] = ''
+	row = 0
+
+	# finding longest subsequence length and range for 1
+	df.at[row, 'octn'] = 1
+	df.at[row, 'longest subsequence length'] = df.at[0, 'Longest Subsequence']
+	df.at[row+1, 'octn'] = 'Time'
+	df.at[row+1, 'longest subsequence length'] = 'From'
+	df.at[row+1, 'count_'] = 'To'
+	start = -1
+	length = 0
+	row += 2
+	count = 0
+	for i in range(len(df['Octant'])):
+		if df.at[i, 'Octant'] == 1:
+			length = 0
+			start = i
+			while (df.at[i, 'Octant'] == 1):
+				i += 1
+				length += 1
+				if (i == len(df)):
+					i -= 1
+					break
+			if length == df.at[0, 'Longest Subsequence']:
+				df.at[row, 'longest subsequence length'] = df.at[start, 'Time']
+				df.at[row, 'count_'] = df.at[i, 'Time']
+				row += 1
+				count += 1
+			length = 0
+	df.at[row-count-2, 'count_'] = count
+
+
+	# finding longest subsequence length and range for -1
+	df.at[row, 'octn'] = -1
+	df.at[row, 'longest subsequence length'] = df.at[1, 'Longest Subsequence']
+	df.at[row+1, 'octn'] = 'Time'
+	df.at[row+1, 'longest subsequence length'] = 'From'
+	df.at[row+1, 'count_'] = 'To'
+	start = -1
+	length = 0
+	row += 2
+	count = 0
+	for i in range(len(df['Octant'])):
+		if df.at[i, 'Octant'] == -1:
+			length = 0
+			start = i
+			while (df.at[i, 'Octant'] == -1):
+				i += 1
+				length += 1
+				if (i == len(df)):
+					i -= 1
+					break
+			if length == df.at[1, 'Longest Subsequence']:
+				df.at[row, 'longest subsequence length'] = df.at[start, 'Time']
+				df.at[row, 'count_'] = df.at[i, 'Time']
+				row += 1
+				count += 1
+			length = 0
+	df.at[row-count-2, 'count_'] = count
+
+
+	# finding longest subsequence length and range for 2
+	df.at[row, 'octn'] = 2
+	df.at[row, 'longest subsequence length'] = df.at[2, 'Longest Subsequence']
+	df.at[row+1, 'octn'] = 'Time'
+	df.at[row+1, 'longest subsequence length'] = 'From'
+	df.at[row+1, 'count_'] = 'To'
+	start = -1
+	length = 0
+	row += 2
+	count = 0
+	for i in range(len(df['Octant'])):
+		if df.at[i, 'Octant'] == 2:
+			length = 0
+			start = i
+			while (df.at[i, 'Octant'] == 2):
+				i += 1
+				length += 1
+				if (i == len(df)):
+					i -= 1
+					break
+			if length == df.at[2, 'Longest Subsequence']:
+				df.at[row, 'longest subsequence length'] = df.at[start, 'Time']
+				df.at[row, 'count_'] = df.at[i, 'Time']
+				row += 1
+				count += 1
+			length = 0
+	df.at[row-count-2, 'count_'] = count
+
+
+	# finding longest subsequence length and range for -2
+	df.at[row, 'octn'] = -2
+	df.at[row, 'longest subsequence length'] = df.at[3, 'Longest Subsequence']
+	df.at[row+1, 'octn'] = 'Time'
+	df.at[row+1, 'longest subsequence length'] = 'From'
+	df.at[row+1, 'count_'] = 'To'
+	start = -1
+	length = 0
+	row += 2
+	count = 0
+	for i in range(len(df['Octant'])):
+		if df.at[i, 'Octant'] == -2:
+			length = 0
+			start = i
+			while (df.at[i, 'Octant'] == -2):
+				i += 1
+				length += 1
+				if (i == len(df)):
+					i -= 1
+					break
+			if length == df.at[3, 'Longest Subsequence']:
+				df.at[row, 'longest subsequence length'] = df.at[start, 'Time']
+				df.at[row, 'count_'] = df.at[i, 'Time']
+				row += 1
+				count += 1
+			length = 0
+	df.at[row-count-2, 'count_'] = count
+
+
+	# finding longest subsequence length and range for 3
+	df.at[row, 'octn'] = 3
+	df.at[row, 'longest subsequence length'] = df.at[4, 'Longest Subsequence']
+	df.at[row+1, 'octn'] = 'Time'
+	df.at[row+1, 'longest subsequence length'] = 'From'
+	df.at[row+1, 'count_'] = 'To'
+	start = -1
+	length = 0
+	row += 2
+	count = 0
+	for i in range(len(df['Octant'])):
+		if df.at[i, 'Octant'] == 3:
+			length = 0
+			start = i
+			while (df.at[i, 'Octant'] == 3):
+				i += 1
+				length += 1
+				if (i == len(df)):
+					i -= 1
+					break
+			if length == df.at[4, 'Longest Subsequence']:
+				df.at[row, 'longest subsequence length'] = df.at[start, 'Time']
+				df.at[row, 'count_'] = df.at[i, 'Time']
+				row += 1
+				count += 1
+			length = 0
+	df.at[row-count-2, 'count_'] = count
+
+
+	# finding longest subsequence length and range for -3
+	df.at[row, 'octn'] = -3
+	df.at[row, 'longest subsequence length'] = df.at[5, 'Longest Subsequence']
+	df.at[row+1, 'octn'] = 'Time'
+	df.at[row+1, 'longest subsequence length'] = 'From'
+	df.at[row+1, 'count_'] = 'To'
+	start = -1
+	length = 0
+	row += 2
+	count = 0
+	for i in range(len(df['Octant'])):
+		if df.at[i, 'Octant'] == -3:
+			length = 0
+			start = i
+			while (df.at[i, 'Octant'] == -3):
+				i += 1
+				length += 1
+				if (i == len(df)):
+					i -= 1
+					break
+			if length == df.at[5, 'Longest Subsequence']:
+				df.at[row, 'longest subsequence length'] = df.at[start, 'Time']
+				df.at[row, 'count_'] = df.at[i, 'Time']
+				row += 1
+				count += 1
+			length = 0
+	df.at[row-count-2, 'count_'] = count
+
+
+	# finding longest subsequence length and range for 4
+	df.at[row, 'octn'] = 4
+	df.at[row, 'longest subsequence length'] = df.at[6, 'Longest Subsequence']
+	df.at[row+1, 'octn'] = 'Time'
+	df.at[row+1, 'longest subsequence length'] = 'From'
+	df.at[row+1, 'count_'] = 'To'
+	start = -1
+	length = 0
+	row += 2
+	count = 0
+	for i in range(len(df['Octant'])):
+		if df.at[i, 'Octant'] == 4:
+			length = 0
+			start = i
+			while (df.at[i, 'Octant'] == 4):
+				i += 1
+				length += 1
+				if (i == len(df)):
+					i -= 1
+					break
+			if length == df.at[6, 'Longest Subsequence']:
+				df.at[row, 'longest subsequence length'] = df.at[start, 'Time']
+				df.at[row, 'count_'] = df.at[i, 'Time']
+				row += 1
+				count += 1
+			length = 0
+	df.at[row-count-2, 'count_'] = count
+	
+	# finding longest subsequence length and range for -4
+	df.at[row, 'octn'] = -4
+	df.at[row, 'longest subsequence length'] = df.at[7, 'Longest Subsequence']
+	df.at[row+1, 'octn'] = 'Time'
+	df.at[row+1, 'longest subsequence length'] = 'From'
+	df.at[row+1, 'count_'] = 'To'
+	start = -1
+	length = 0
+	row += 2
+	count = 0
+	for i in range(len(df['Octant'])):
+		if df.at[i, 'Octant'] == -4:
+			length = 0
+			start = i
+			while (df.at[i, 'Octant'] == -4):
+				i += 1
+				length += 1
+				if (i == len(df)):
+					i -= 1
+					break
+			if length == df.at[7, 'Longest Subsequence']:
+				df.at[row, 'longest subsequence length'] = df.at[start, 'Time']
+				df.at[row, 'count_'] = df.at[i, 'Time']
+				row += 1
+				count += 1
+			length = 0
+	df.at[row-count-2, 'count_'] = count
