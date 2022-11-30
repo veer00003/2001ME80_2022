@@ -711,4 +711,7 @@ st.subheader('ara, we meet again, senpai~')
 
 
 
+constant_fk2d=st.number_input('enter the value of fk2d (required = 0.75)', key='fk2d') 
+multiplying_factor_3d=st.number_input('enter the value of multiplying factor 3d (required = 0.5)', key='mf3d') 
+Shear_velocity=st.number_input('enter the value of shear velocity (required = 2.6**3)', key='shearvel') 
 
