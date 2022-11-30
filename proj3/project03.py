@@ -715,3 +715,82 @@ constant_fk2d=st.number_input('enter the value of fk2d (required = 0.75)', key='
 multiplying_factor_3d=st.number_input('enter the value of multiplying factor 3d (required = 0.5)', key='mf3d') 
 Shear_velocity=st.number_input('enter the value of shear velocity (required = 2.6**3)', key='shearvel') 
 
+# print('1. C','2. S','3. A','4. C & S','5. C & A','6. S & A','7. C & S & A','8. all combine',sep='\n')
+
+st.write('1. C')
+st.write('2. S')
+st.write('3. A')
+st.write('4. C & S')
+st.write('5. C & A')
+st.write('6. S & A')
+st.write('7. C & S')
+st.write('8. all combine')
+
+tchinp=st.number_input('choose the filteering method from above')
+
+
+tch = int(tchinp)
+
+
+if tch:
+    st.write(tch)
+
+    if tch == 1:
+
+        corrinp=st.number_input('Enter thresold value C:')
+        corr = int(corrinp)
+
+
+    elif tch == 2:
+
+        SNRinp=st.number_input('Enter thresold value S:')
+        SNR = int(SNRinp)
+
+
+    elif tch == 3:
+
+        Lambdainp=st.number_input('Enter Lambda value for A:')
+        Lambda = float(Lambdainp)
+        kinp=st.number_input('Enter k value for A:')
+        k = float(kinp)
+        # print(Lambda,k)
+
+
+    elif tch == 4:
+
+        corrinp=st.number_input('Enter thresold value C:')
+        corr = int(corrinp)
+        SNRinp=st.number_input('Enter thresold value S:')
+        SNR = int(SNRinp)
+
+
+    elif tch == 5:
+
+        corr = int(st.number_input('Enter threshold value C:'))
+        Lambda = float(st.number_input('Enter Lambda value for A:'))
+        k = float(st.number_input('Enter k value for A:'))
+
+
+    elif tch == 6:
+
+        SNR = int(st.number_input('Enter thresold value S:'))
+        Lambda = float(st.number_input('Enter Lambda value for A:'))
+        k = float(st.number_input('Enter k value for A:'))
+
+
+    elif tch == 7 or tch==8:
+
+        corr = int(st.number_input('Enter thresold value C:'))
+        SNR = int(st.number_input('Enter thresold value S:'))
+        Lambda = float(st.number_input('Enter Lambda value for A:'))
+        k = float(st.number_input('Enter k value for A:'))
+
+
+    else:
+        # print('Please enter correct choice...')
+        st.write('urusai baaka')
+    # print("*"*25)
+
+
+
+
