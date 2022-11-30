@@ -794,3 +794,29 @@ if tch:
 
 
 
+    st.write('1. previous point')
+    st.write('2. 2*last-2nd_last')
+    st.write('3. overall_mean')
+    st.write('4. 12_point_strategy')
+    st.write('5.  mean of previous 2 point')
+    st.write('6. all seqential')
+    st.write('7. all parallel')
+    
+
+
+    # print('1. previous point','2. 2*last-2nd_last','3. overall_mean',
+    #     '4. 12_point_strategy','5. mean of previous 2 point',
+    #     '6. all seqential','7. all parallel',sep='\n')
+
+
+    # note to reader:
+    # please do not write condensed code please.
+    # it makes my eyes bleed.
+    # regards,
+    # your average joe.
+
+
+    
+    sch = int(st.number_input('Chose Replacement Method From Above:')) 
+
+
