@@ -2,7 +2,6 @@
 import os
 import ntpath
 import glob
-import streamlit as st
 import pandas as pd
 import numpy as np
 import datetime
@@ -154,14 +153,9 @@ def fk():
     data['w\'v\'v\' mean']=''
     data.at[0,'w\'v\'v\' mean']=round(data['w\'v\'v\''].mean(),3)
 
-    # constant_fk2d=0.75 
-    # multiplying_factor_3d=0.5 
-    # Shear_velocity=2.6**3
-
-    # constant_fk2d=st.number_input('enter the value of fk2d (required = 0.75)', key='fk2d') 
-    # multiplying_factor_3d=st.number_input('enter the value of multiplying factor 3d (required = 0.5)', key='mf3d') 
-    # Shear_velocity=st.number_input('enter the value of shear velocity (required = 2.6**3)', key='shearvel') 
-
+    constant_fk2d=0.75 
+    multiplying_factor_3d=0.5 
+    Shear_velocity=2.6**3
 
     data.at[index,'fku_2d']=round((data.at[0,'u\'u\'u\' mean']+data.at[0,'u\'w\'w\' mean'])*constant_fk2d,3)
     data.at[index,'Fku_2d']=round(data.at[index,'fku_2d']/Shear_velocity,3)
@@ -674,395 +668,272 @@ def add_front_name(name,x):
     
     print(name)
     return name
+print("-"*25)
+print('1. C','2. S','3. A','4. C & S','5. C & A','6. S & A','7. C & S & A','8. all combine',sep='\n')
+tch = int(input('Chose Filtering Method From Above:'))
+if tch == 1:
+    corr = int(input('Enter thresold value C:'))
+elif tch == 2:
+    SNR = int(input('Enter thresold value S:'))
+elif tch == 3:
+    Lambda = float(input('Enter Lambda value for A:'))
+    k = float(input('Enter k value for A:'))
+    print(Lambda,k)
+elif tch == 4:
+    corr = int(input('Enter thresold value C:'))
+    SNR = int(input('Enter thresold value S:'))
+elif tch == 5:
+    corr = int(input('Enter thresold value C:'))
+    Lambda = float(input('Enter Lambda value for A:'))
+    k = float(input('Enter k value for A:'))
+elif tch == 6:
+    SNR = int(input('Enter thresold value S:'))
+    Lambda = float(input('Enter Lambda value for A:'))
+    k = float(input('Enter k value for A:'))
+elif tch == 7 or tch==8:
+    corr = int(input('Enter thresold value C:'))
+    SNR = int(input('Enter thresold value S:'))
+    Lambda = float(input('Enter Lambda value for A:'))
+    k = float(input('Enter k value for A:'))
+else:
+    print('Please enter correct choice...')
+print("*"*25)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# ----------------------------------------------------------------------------------------------------------
-
-
-#                                      MAIN STUFF STARTS HERE
-
-
-# ----------------------------------------------------------------------------------------------------------
-
-
-
-
-
-st.set_page_config(
-	page_title='stonks proj3',
-	page_icon='graph-up-arrow'
-	)
-st.title('stonks project 03')
-st.subheader('ara, we meet again, senpai~')
-
-
-
-constant_fk2d=st.number_input('enter the value of fk2d (required = 0.75)', key='fk2d') 
-multiplying_factor_3d=st.number_input('enter the value of multiplying factor 3d (required = 0.5)', key='mf3d') 
-Shear_velocity=st.number_input('enter the value of shear velocity (required = 2.6**3)', key='shearvel') 
-
-# print('1. C','2. S','3. A','4. C & S','5. C & A','6. S & A','7. C & S & A','8. all combine',sep='\n')
-
-st.write('1. C')
-st.write('2. S')
-st.write('3. A')
-st.write('4. C & S')
-st.write('5. C & A')
-st.write('6. S & A')
-st.write('7. C & S')
-st.write('8. all combine')
-
-tchinp=st.number_input('choose the filteering method from above')
-
-
-tch = int(tchinp)
-
-
-if tch:
-    st.write(tch)
-
-    if tch == 1:
-
-        corrinp=st.number_input('Enter thresold value C:')
-        corr = int(corrinp)
-
-
-    elif tch == 2:
-
-        SNRinp=st.number_input('Enter thresold value S:')
-        SNR = int(SNRinp)
-
-
-    elif tch == 3:
-
-        Lambdainp=st.number_input('Enter Lambda value for A:')
-        Lambda = float(Lambdainp)
-        kinp=st.number_input('Enter k value for A:')
-        k = float(kinp)
-        # print(Lambda,k)
-
-
-    elif tch == 4:
-
-        corrinp=st.number_input('Enter thresold value C:')
-        corr = int(corrinp)
-        SNRinp=st.number_input('Enter thresold value S:')
-        SNR = int(SNRinp)
-
-
-    elif tch == 5:
-
-        corr = int(st.number_input('Enter threshold value C:'))
-        Lambda = float(st.number_input('Enter Lambda value for A:'))
-        k = float(st.number_input('Enter k value for A:'))
-
-
-    elif tch == 6:
-
-        SNR = int(st.number_input('Enter thresold value S:'))
-        Lambda = float(st.number_input('Enter Lambda value for A:'))
-        k = float(st.number_input('Enter k value for A:'))
-
-
-    elif tch == 7 or tch==8:
-
-        corr = int(st.number_input('Enter thresold value C:'))
-        SNR = int(st.number_input('Enter thresold value S:'))
-        Lambda = float(st.number_input('Enter Lambda value for A:'))
-        k = float(st.number_input('Enter k value for A:'))
-
-
-    else:
-        # print('Please enter correct choice...')
-        st.write('urusai baaka')
-    # print("*"*25)
-
-
-
-
-    st.write('1. previous point')
-    st.write('2. 2*last-2nd_last')
-    st.write('3. overall_mean')
-    st.write('4. 12_point_strategy')
-    st.write('5.  mean of previous 2 point')
-    st.write('6. all seqential')
-    st.write('7. all parallel')
+print('1. previous point','2. 2*last-2nd_last','3. overall_mean',
+      '4. 12_point_strategy','5. mean of previous 2 point',
+      '6. all seqential','7. all parallel',sep='\n')
+sch = int(input('Chose Replacement Method From Above:')) 
+if sch> 7:
+    print('Please enter correct choice...')
+else:
+    fileList = open('input_file_list.txt', 'r')
+    files = fileList.readlines()
+    for file in files:
+        input_filename=file.strip()[:-3]+'csv'
+        try:
+            input_data = pd.read_csv(input_filename)
+        except:
+            print(input_filename)
+            continue
+        N=input_data['U'].count()
+        
+        if tch==1 or tch==8:
+            if sch>5:
+                iList = [1,2,3,4,5]
+            else:
+                iList = [sch]
+            for i in iList:
+                if sch==7:
+                    input_data = pd.read_csv(input_filename)
+                data =input_data
+                find_mean()
+                find_std()
+                Corr_All(i,corr)
+                allfunction()
+                name = f"{input_filename}_filtered_by_correlation{corr}_all_replacement_strategy_{i}"
+                write_timestamp_to_file(name)
+                name = add_front_name(name,i)
+                store()
+                
+                data =input_data
+                find_mean()
+                find_std()
+                Corr_One(i,corr)
+                allfunction()
+                name = f"{input_filename}_filtered_by_correlation{corr}_individual_replacement_strategy_{i}"
+                write_timestamp_to_file(name)
+                name = add_front_name(name,i)
+                store()
     
-
-
-    # print('1. previous point','2. 2*last-2nd_last','3. overall_mean',
-    #     '4. 12_point_strategy','5. mean of previous 2 point',
-    #     '6. all seqential','7. all parallel',sep='\n')
-
-
-    # note to reader:
-    # please do not write condensed code please.
-    # it makes my eyes bleed.
-    # regards,
-    # your average joe.
-
-
+        if tch==2 or tch==8:
+            if sch>5:
+                iList = [1,2,3,4,5]
+            else:
+                iList = [sch]
+            for i in iList:
+                if sch==7:
+                    input_data = pd.read_csv(input_filename)
+                data =input_data
+                find_mean()
+                find_std()
+                SNR_All(i,SNR)
+                allfunction()
+                name = f"{input_filename}_filtered_by_SNR{SNR}_all_replacement_strategy_{i}"
+                write_timestamp_to_file(name)    
+                name = add_front_name(name,i)
+                store()
+            
+                data =input_data
+                find_mean()
+                find_std()
+                SNR_One(i,SNR)
+                allfunction()
+                name = f"{input_filename}_filtered_by_SNR{SNR}_individual_replacement_strategy_{i}"
+                write_timestamp_to_file(name)
+                name = add_front_name(name,i)
+                store()
     
-    sch = int(st.number_input('Chose Replacement Method From Above:')) 
+        if tch==3 or tch==8:
+            if sch>5:
+                iList = [1,2,3,4,5]
+            else:
+                iList = [sch]
+            for i in iList:
+                if sch==7:
+                    input_data = pd.read_csv(input_filename)
+                data =input_data
+                find_mean()
+                find_std()
+                update_acceleration_all_at_time(i)
+                allfunction()
+                name = f"{input_filename}_filtered_by_acceleration_1.5_all_replacement_strategy_{i}"
+                write_timestamp_to_file(name)
+                name = add_front_name(name,i)
+                store()
+        
+                data =input_data
+                find_mean()
+                find_std()
+                update_acceleration_one_at_time(i)
+                allfunction()
+                name = f"{input_filename}_filtered_by_acceleration_1.5_individual_replacement_strategy_{i}"
+                write_timestamp_to_file(name)
+                name = add_front_name(name,i)
+                store()
+    
+        if tch==4 or tch==8:
+            if sch>5:
+                iList = [1,2,3,4,5]
+            else:
+                iList = [sch]
+            for i in iList:
+                if sch==7:
+                    input_data = pd.read_csv(input_filename)
+                data =input_data
+                find_mean()
+                find_std()
+                Corr_All(i,corr)
+                SNR_All(i,SNR)
+                allfunction()
+                name = f"{input_filename}_filtered_by_correlation{corr}_SNR{SNR}_all_replacement_strategy_{i}"
+                write_timestamp_to_file(name)
+                name = add_front_name(name,i)
+                store()
+                
+                data =input_data
+                find_mean()
+                find_std()
+                Corr_One(i,corr)
+                SNR_One(i,SNR)
+                allfunction()
+                name = f"{input_filename}_filtered_by_correlation{corr}_SNR{SNR}_individual_replacement_strategy_{i}"
+                write_timestamp_to_file(name)
+                name = add_front_name(name,i)
+                store()
+    
+        if tch==5 or tch==8:
+            if sch>5:
+                iList = [1,2,3,4,5]
+            else:
+                iList = [sch]
+            for i in iList:
+                if sch==7:
+                    input_data = pd.read_csv(input_filename)
+                data =input_data
+                find_mean()
+                find_std()
+                SNR_All(i,SNR)
+                update_acceleration_all_at_time(i)
+                allfunction()
+                name = f"{input_filename}_filtered_by_SNR{SNR}_Acceleration_1.5_all_replacement_strategy_{i}"
+                write_timestamp_to_file(name)
+                name = add_front_name(name,i)
+                store()
+            
+                data =input_data
+                find_mean()
+                find_std()
+                SNR_One(i,SNR)
+                update_acceleration_all_at_time(i)
+                allfunction()
+                name = f"{input_filename}_filtered_by_SNR{SNR}_acceleration_1.5_individual_replacement_strategy_{i}"
+                write_timestamp_to_file(name)
+                name = add_front_name(name,i)
+                store()
+    
+        if tch==6 or tch==8:
+            if sch>5:
+                iList = [1,2,3,4,5]
+            else:
+                iList = [sch]
+            for i in iList:
+                if sch==7:
+                    input_data = pd.read_csv(input_filename)
+                data =input_data
+                find_mean()
+                find_std()
+                Corr_All(i,corr)
+                update_acceleration_all_at_time(i)
+                allfunction()
+                name = f"{input_filename}_filtered_by_correlation{corr}_Acceleration_1.5_all_replacement_strategy_{i}"
+                write_timestamp_to_file(name)
+                name = add_front_name(name,i)
+                store()
+            
+                data =input_data
+                find_mean()
+                find_std()
+                Corr_One(i,corr)
+                update_acceleration_all_at_time(i)
+                allfunction()
+                name = f"{input_filename}_filtered_by_correlation{corr}_acceleration_1.5_individual_replacement_strategy_{i}"
+                write_timestamp_to_file(name)
+                name = add_front_name(name,i)
+                store()
+    
+        if tch==7 or tch==8:
+            if sch>5:
+                iList = [1,2,3,4,5]
+            else:
+                iList = [sch]
+            for i in iList:
+                if sch==7:
+                    input_data = pd.read_csv(input_filename)
+                data =input_data
+                find_mean()
+                find_std()
+                Corr_All(i,corr)
+                SNR_All(i,SNR)
+                update_acceleration_all_at_time(i)
+                allfunction()
+                name = f"{input_filename}_filtered_by_correlation{corr}_SNR{SNR}_Acceleration_1.5_all_replacement_strategy_{i}"
+                write_timestamp_to_file(name)
+                
+                name = add_front_name(name,i)
+                store()
+            
+                data =input_data
+                find_mean()
+                find_std()
+                Corr_One(i,corr)
+                SNR_One(i,SNR)
+                update_acceleration_all_at_time(i)
+                allfunction()
+                name = f"{input_filename}_filtered_by_correlation{corr}_SNR{SNR}_acceleration_1.5_individual_replacement_strategy_{i}"
+                write_timestamp_to_file(name)    
+                name = add_front_name(name,i)
+                store()
 
 
-    if sch:
+end_time = datetime.now()
 
+print("-------------------------------------------------------------------")
+print("\nStart Time :", start_time.strftime("%c"))
+print("\nEnd Time :", end_time.strftime("%c")) 
+print('\nDuration: {}'.format(end_time - start_time))
+duration=end_time - start_time
+name="Complete Duration"
+duration_timestamp_to_file(name, duration)
 
-        if sch> 7:
-            st.write('Please enter correct choice...')
-        else:
-            # fileList = open('input_file_list.txt', 'r')
-            # files = fileList.readlines()
-
-            files=st.file_uploader('upload all of ze files here', accept_multiple_files=True)
-
-            if files:
-
-                if st.button('execute'):
-
-
-                    for input_filename in files:
-                        # input_filename=file.strip()[:-3]+'csv'
-                        try:
-                            input_data = pd.read_csv(input_filename)
-                        except:
-                            print(input_filename)
-                            continue
-                        N=input_data['U'].count()
-                        
-                        if tch==1 or tch==8:
-                            if sch>5:
-                                iList = [1,2,3,4,5]
-                            else:
-                                iList = [sch]
-                            for i in iList:
-                                if sch==7:
-                                    input_data = pd.read_csv(input_filename)
-                                data =input_data
-                                find_mean()
-                                find_std()
-                                Corr_All(i,corr)
-                                allfunction()
-                                name = f"{input_filename}_filtered_by_correlation{corr}_all_replacement_strategy_{i}"
-                                write_timestamp_to_file(name)
-                                name = add_front_name(name,i)
-                                store()
-                                
-                                data =input_data
-                                find_mean()
-                                find_std()
-                                Corr_One(i,corr)
-                                allfunction()
-                                name = f"{input_filename}_filtered_by_correlation{corr}_individual_replacement_strategy_{i}"
-                                write_timestamp_to_file(name)
-                                name = add_front_name(name,i)
-                                store()
-                    
-                        if tch==2 or tch==8:
-                            if sch>5:
-                                iList = [1,2,3,4,5]
-                            else:
-                                iList = [sch]
-                            for i in iList:
-                                if sch==7:
-                                    input_data = pd.read_csv(input_filename)
-                                data =input_data
-                                find_mean()
-                                find_std()
-                                SNR_All(i,SNR)
-                                allfunction()
-                                name = f"{input_filename}_filtered_by_SNR{SNR}_all_replacement_strategy_{i}"
-                                write_timestamp_to_file(name)    
-                                name = add_front_name(name,i)
-                                store()
-                            
-                                data =input_data
-                                find_mean()
-                                find_std()
-                                SNR_One(i,SNR)
-                                allfunction()
-                                name = f"{input_filename}_filtered_by_SNR{SNR}_individual_replacement_strategy_{i}"
-                                write_timestamp_to_file(name)
-                                name = add_front_name(name,i)
-                                store()
-                    
-                        if tch==3 or tch==8:
-                            if sch>5:
-                                iList = [1,2,3,4,5]
-                            else:
-                                iList = [sch]
-                            for i in iList:
-                                if sch==7:
-                                    input_data = pd.read_csv(input_filename)
-                                data =input_data
-                                find_mean()
-                                find_std()
-                                update_acceleration_all_at_time(i)
-                                allfunction()
-                                name = f"{input_filename}_filtered_by_acceleration_1.5_all_replacement_strategy_{i}"
-                                write_timestamp_to_file(name)
-                                name = add_front_name(name,i)
-                                store()
-                        
-                                data =input_data
-                                find_mean()
-                                find_std()
-                                update_acceleration_one_at_time(i)
-                                allfunction()
-                                name = f"{input_filename}_filtered_by_acceleration_1.5_individual_replacement_strategy_{i}"
-                                write_timestamp_to_file(name)
-                                name = add_front_name(name,i)
-                                store()
-                    
-                        if tch==4 or tch==8:
-                            if sch>5:
-                                iList = [1,2,3,4,5]
-                            else:
-                                iList = [sch]
-                            for i in iList:
-                                if sch==7:
-                                    input_data = pd.read_csv(input_filename)
-                                data =input_data
-                                find_mean()
-                                find_std()
-                                Corr_All(i,corr)
-                                SNR_All(i,SNR)
-                                allfunction()
-                                name = f"{input_filename}_filtered_by_correlation{corr}_SNR{SNR}_all_replacement_strategy_{i}"
-                                write_timestamp_to_file(name)
-                                name = add_front_name(name,i)
-                                store()
-                                
-                                data =input_data
-                                find_mean()
-                                find_std()
-                                Corr_One(i,corr)
-                                SNR_One(i,SNR)
-                                allfunction()
-                                name = f"{input_filename}_filtered_by_correlation{corr}_SNR{SNR}_individual_replacement_strategy_{i}"
-                                write_timestamp_to_file(name)
-                                name = add_front_name(name,i)
-                                store()
-                    
-                        if tch==5 or tch==8:
-                            if sch>5:
-                                iList = [1,2,3,4,5]
-                            else:
-                                iList = [sch]
-                            for i in iList:
-                                if sch==7:
-                                    input_data = pd.read_csv(input_filename)
-                                data =input_data
-                                find_mean()
-                                find_std()
-                                SNR_All(i,SNR)
-                                update_acceleration_all_at_time(i)
-                                allfunction()
-                                name = f"{input_filename}_filtered_by_SNR{SNR}_Acceleration_1.5_all_replacement_strategy_{i}"
-                                write_timestamp_to_file(name)
-                                name = add_front_name(name,i)
-                                store()
-                            
-                                data =input_data
-                                find_mean()
-                                find_std()
-                                SNR_One(i,SNR)
-                                update_acceleration_all_at_time(i)
-                                allfunction()
-                                name = f"{input_filename}_filtered_by_SNR{SNR}_acceleration_1.5_individual_replacement_strategy_{i}"
-                                write_timestamp_to_file(name)
-                                name = add_front_name(name,i)
-                                store()
-                    
-                        if tch==6 or tch==8:
-                            if sch>5:
-                                iList = [1,2,3,4,5]
-                            else:
-                                iList = [sch]
-                            for i in iList:
-                                if sch==7:
-                                    input_data = pd.read_csv(input_filename)
-                                data =input_data
-                                find_mean()
-                                find_std()
-                                Corr_All(i,corr)
-                                update_acceleration_all_at_time(i)
-                                allfunction()
-                                name = f"{input_filename}_filtered_by_correlation{corr}_Acceleration_1.5_all_replacement_strategy_{i}"
-                                write_timestamp_to_file(name)
-                                name = add_front_name(name,i)
-                                store()
-                            
-                                data =input_data
-                                find_mean()
-                                find_std()
-                                Corr_One(i,corr)
-                                update_acceleration_all_at_time(i)
-                                allfunction()
-                                name = f"{input_filename}_filtered_by_correlation{corr}_acceleration_1.5_individual_replacement_strategy_{i}"
-                                write_timestamp_to_file(name)
-                                name = add_front_name(name,i)
-                                store()
-                    
-                        if tch==7 or tch==8:
-                            if sch>5:
-                                iList = [1,2,3,4,5]
-                            else:
-                                iList = [sch]
-                            for i in iList:
-                                if sch==7:
-                                    input_data = pd.read_csv(input_filename)
-                                data =input_data
-                                find_mean()
-                                find_std()
-                                Corr_All(i,corr)
-                                SNR_All(i,SNR)
-                                update_acceleration_all_at_time(i)
-                                allfunction()
-                                name = f"{input_filename}_filtered_by_correlation{corr}_SNR{SNR}_Acceleration_1.5_all_replacement_strategy_{i}"
-                                write_timestamp_to_file(name)
-                                
-                                name = add_front_name(name,i)
-                                store()
-                            
-                                data =input_data
-                                find_mean()
-                                find_std()
-                                Corr_One(i,corr)
-                                SNR_One(i,SNR)
-                                update_acceleration_all_at_time(i)
-                                allfunction()
-                                name = f"{input_filename}_filtered_by_correlation{corr}_SNR{SNR}_acceleration_1.5_individual_replacement_strategy_{i}"
-                                write_timestamp_to_file(name)    
-                                name = add_front_name(name,i)
-                                store()
-
-
-                end_time = datetime.now()
-
-                print("-------------------------------------------------------------------")
-                print("\nStart Time :", start_time.strftime("%c"))
-                print("\nEnd Time :", end_time.strftime("%c")) 
-                print('\nDuration: {}'.format(end_time - start_time))
-                duration=end_time - start_time
-                name="Complete Duration"
-                duration_timestamp_to_file(name, duration)
-
-                print("-------------------------------------------------------------------")
+print("-------------------------------------------------------------------")
