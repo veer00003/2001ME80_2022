@@ -69,3 +69,14 @@ UploadedFile(id=21, name='7.6_raw.csv', type='text/csv', size=18823)_filtered_by
 UploadedFile(id=22, name='7.9_raw.csv', type='text/csv', size=18823)_filtered_by_SNR10_all_replacement_strategy_4,2022-11-30 11:21:52.068422
 UploadedFile(id=22, name='7.9_raw.csv', type='text/csv', size=18823)_filtered_by_SNR10_individual_replacement_strategy_4,2022-11-30 11:21:52.192764
 Complete Duration,0:00:01.190010
+Complete Duration,0:00:00.146972
+Complete Duration,0:00:00.161300
+Complete Duration,0:00:00.107385
+Complete Duration,0:00:00.185819
+UploadedFile(id=1, name='7.2_raw.csv', type='text/csv', size=18823)_filtered_by_SNR10_all_replacement_strategy_1,2022-12-01 00:37:40.945900
+UploadedFile(id=1, name='7.2_raw.csv', type='text/csv', size=18823)_filtered_by_SNR10_individual_replacement_strategy_1,2022-12-01 00:37:41.057338
+UploadedFile(id=2, name='7.6_raw.csv', type='text/csv', size=18823)_filtered_by_SNR10_all_replacement_strategy_1,2022-12-01 00:37:41.180337
+UploadedFile(id=2, name='7.6_raw.csv', type='text/csv', size=18823)_filtered_by_SNR10_individual_replacement_strategy_1,2022-12-01 00:37:41.282613
+UploadedFile(id=3, name='7.9_raw.csv', type='text/csv', size=18823)_filtered_by_SNR10_all_replacement_strategy_1,2022-12-01 00:37:41.400185
+UploadedFile(id=3, name='7.9_raw.csv', type='text/csv', size=18823)_filtered_by_SNR10_individual_replacement_strategy_1,2022-12-01 00:37:41.491822
+Complete Duration,0:00:00.741266

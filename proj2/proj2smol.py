@@ -2165,23 +2165,23 @@ def mainprog(inputfile, mod, buttonnumber, option, pathlength):
 	# outputfilename='tut07/output/'+inputfile+'_vel_octant_analysis_mod_5000.xlsx'
 
 	buttonlabel='download file ' + str(buttonnumber)
-	
+
 
 	try:
-		
+
 		if option == 1:
 
-		
+
 
 			# -----------------------------DO NOT TOUCH------------------------------------
 			output=BytesIO()
 			wb2.save(output)
 			datafile=output.getvalue()
 			infnm=inputfilename.name
-			optfnm=infnm[0:3] + '.xlsx'
-			
+			optfnm=infnm[0:7] + '.xlsx'
+
 			st.download_button(label = buttonlabel, data=datafile ,file_name=optfnm)
-			
+
 			# shouldn't have touched it
 			# -----------------------------------------------------------------------------
 
@@ -2194,10 +2194,10 @@ def mainprog(inputfile, mod, buttonnumber, option, pathlength):
 			wb2.save(output)
 			datafile=output.getvalue()
 			infnm=inputfilename[pathlength:]
-			optfnm=infnm[0:4] + '.xlsx'
-			
+			optfnm=infnm[0:8] + '.xlsx'
+
 			st.download_button(label = buttonlabel, data=datafile ,file_name=optfnm)
-			
+
 			# shouldn't have touched it
 			# -----------------------------------------------------------------------------
 
@@ -2240,13 +2240,16 @@ def mainprog(inputfile, mod, buttonnumber, option, pathlength):
 # for inputfile in filelist:
 # 	mainprog(inputfile)
 
-st.set_page_config(page_title='~ara', page_icon=':eggplant:')
+st.set_page_config(
+	page_title='~ara',
+	page_icon=':eggplant:'
+	)
 
 
 selected=option_menu(
 	menu_title=None,
 	options=['file upload', 'path'],
-	icons=['file-earmark-arrow-up', 'signpost-split'],
+    icons=['file-earmark-arrow-up', 'signpost-split'],
 	default_index=0,
 	orientation='horizontal'
 )
@@ -2257,20 +2260,19 @@ if selected == 'file upload':
 
 
 	st.title('stonks')
-	
-	pathlength=1
 
 	image = Image.open('stonks.png')
 
 	st.image(image, caption='an accurate representation of our faces when we completed this')
 
 	st.subheader('give it to me senpai~')
+	pathlength=1
 
 	inputfiles=st.file_uploader('yes dragging and dropping an entire folder works too', accept_multiple_files=True)
 	modval=st.number_input('enter the mod value')
 	moddval=int(modval)
 
-	if st.button('execute'):
+	if st.checkbox('execute'):
 		if inputfiles:
 			buttonnumber=1
 			# lol
@@ -2317,7 +2319,7 @@ if selected == 'path':
 
 
 
-	if st.button('execute'):
+	if st.checkbox('execute'):
 		if inputfiles:
 			buttonnumber=1
 
@@ -2330,4 +2332,5 @@ if selected == 'path':
 
 
 		elif not inputfiles:
-			print('bruh enter the stuff atleast')
+			st.write('bruh enter the stuff atleast')
+
